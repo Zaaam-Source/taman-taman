@@ -1,0 +1,46 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://world_manager.gd"     id="1_wm"]
+[ext_resource type="Script" path="res://world_renderer.gd"    id="2_wr"]
+[ext_resource type="Script" path="res://interior_renderer.gd" id="3_ir"]
+[ext_resource type="Script" path="res://character_body_2d.gd" id="4_cb"]
+[ext_resource type="Script" path="res://day_night.gd"         id="5_dn"]
+[ext_resource type="Script" path="res://shop_dialog.gd"       id="6_sd"]
+
+[sub_resource type="RectangleShape2D" id="Shape_player"]
+size = Vector2(20.0, 16.0)
+
+[sub_resource type="Environment" id="Env_1"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_wm")
+
+[node name="WorldRenderer" type="Node2D" parent="."]
+script = ExtResource("2_wr")
+
+[node name="CropManager" type="Node2D" parent="."]
+
+[node name="InteriorRoot" type="Node2D" parent="."]
+visible = false
+
+[node name="InteriorRenderer" type="Node2D" parent="InteriorRoot"]
+script = ExtResource("3_ir")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(160.0, 352.0)
+script = ExtResource("4_cb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(0.0, 8.0)
+shape = SubResource("Shape_player")
+
+[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
+zoom = Vector2(1.4, 1.4)
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="DayNight" type="ColorRect" parent="UILayer"]
+script = ExtResource("5_dn")
+
+[node name="ShopDialog" type="Panel" parent="UILayer"]
+script = ExtResource("6_sd")
