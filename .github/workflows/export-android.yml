@@ -8,35 +8,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Java
-        uses: actions/setup-java@v4
+      - name: Godot Android export
+        uses: dulvui/godot-android-export@v4
         with:
-          distribution: temurin
-          java-version: 17
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Download Godot
-        run: |
-          wget -q https://github.com/godotengine/godot/releases/download/4.6.1-stable/Godot_v4.6.1-stable_linux.x86_64.zip
-          unzip -q Godot_v4.6.1-stable_linux.x86_64.zip
-          chmod +x Godot_v4.6.1-stable_linux.x86_64
-
-      - name: Download Export Templates
-        run: |
-          mkdir -p ~/.local/share/godot/export_templates/4.6.1.stable
-          wget -q https://github.com/godotengine/godot/releases/download/4.6.1-stable/Godot_v4.6.1-stable_export_templates.tpz
-          unzip -q Godot_v4.6.1-stable_export_templates.tpz
-          mv templates/* ~/.local/share/godot/export_templates/4.6.1.stable/
-
-      - name: Export APK
-        run: |
-          mkdir -p build
-          ./Godot_v4.6.1-stable_linux.x86_64 --headless --export-debug "Android" build/android.apk
+          godot-version: 4.6.1
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: android-apk
-          path: build/android.apk
+          path: ./*.apk
